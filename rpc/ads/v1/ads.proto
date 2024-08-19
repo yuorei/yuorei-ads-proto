@@ -3,7 +3,7 @@ syntax = "proto3";
 package rpc.v1;
 import "google/protobuf/timestamp.proto";
 
-option go_package = "github.com/yuorei/yuorei-ads/gen/rpc/ads/v1;adsv1";
+option go_package = "github.com/yuorei/yuorei-ads-proto/gen/rpc/ads/v1;adsv1";
 
 // Campaign Management Service
 service AdManagementService {

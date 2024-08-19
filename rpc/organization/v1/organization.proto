@@ -4,7 +4,7 @@ package rpc.v1;
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/empty.proto";
 
-option go_package = "github.com/yuorei/yuorei-ads/gen/rpc/organization/v1;organizationv1";
+option go_package = "github.com/yuorei/yuorei-ads-proto/gen/rpc/organization/v1;organizationv1";
 
 service OrganizationService {
     rpc CreateOrganization(CreateOrganizationRequest) returns (CreateOrganizationResponse);
