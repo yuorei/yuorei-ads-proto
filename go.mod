@@ -1,3 +1,3 @@
-module ithub.com/yuorei/yuorei-ads-proto
+module github.com/yuorei/yuorei-ads-proto
 
 go 1.22.4
