@@ -11,18 +11,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install Buf
+      - name: Generate Go Code By Buf
         run: |
-          npm install @bufbuild/buf
+          go install github.com/bufbuild/buf/cmd/buf@latest
           go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
           go install connectrpc.com/connect/cmd/protoc-gen-connect-go@latest
           export PATH="$PATH:$(go env GOPATH)/bin"
-          protoc-gen-go --version
-
-      - name: Generate Go Code
-        run: |
-          protoc-gen-go --version
-          npx buf generate
+          buf generate
 
       - name: Commit and Push Generated Code
         run: |
