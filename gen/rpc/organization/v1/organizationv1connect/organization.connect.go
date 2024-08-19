@@ -8,7 +8,7 @@ import (
 	connect "connectrpc.com/connect"
 	context "context"
 	errors "errors"
-	v1 "github.com/yuorei/yuorei-ads/gen/rpc/organization/v1"
+	v1 "github.com/yuorei/yuorei-ads-proto/gen/rpc/organization/v1"
 	http "net/http"
 	strings "strings"
 )
