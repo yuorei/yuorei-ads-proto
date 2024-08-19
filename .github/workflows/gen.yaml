@@ -6,19 +6,18 @@ on:
     #   - 'rpc/**'
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: macos-14
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Install Buf
         run: |
-          sudo apt-get update
-          go download connectrpc.com/connect/cmd/protoc-gen-connect-go@latest
+          brew install bufbuild/buf/buf
 
       - name: Generate Go Code
         run: |
-          docker run --volume "$(pwd):/workspace" --workdir /workspace bufbuild/buf generate
+          buf generate
 
       - name: Commit and Push Generated Code
         run: |
