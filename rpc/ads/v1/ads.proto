@@ -9,32 +9,10 @@ option go_package = "github.com/yuorei/yuorei-ads/gen/rpc/ads/v1;adsv1";
 service AdManagementService {
     // Campaign Management
     rpc CreateCampaign(CreateCampaignRequest) returns (CreateCampaignResponse);
-    // rpc GetCampaign(GetCampaignRequest) returns (GetCampaignResponse);
-    // rpc UpdateCampaign(UpdateCampaignRequest) returns (UpdateCampaignResponse);
-    // rpc DeleteCampaign(DeleteCampaignRequest) returns (DeleteCampaignResponse);
-
-    // Ad Management
-    // rpc CreateAd(CreateAdRequest) returns (CreateAdResponse);
-    // rpc GetAd(GetAdRequest) returns (GetAdResponse);
-    // rpc UpdateAd(UpdateAdRequest) returns (UpdateAdResponse);
-    // rpc DeleteAd(DeleteAdRequest) returns (DeleteAdResponse);
 
     // Ad Video
     rpc GetAdVideo(GetAdVideoRequest) returns (stream GetAdVideoResponse);
     rpc WatchCountAdVideo(WatchCountAdVideoRequest) returns (WatchCountAdVideoResponse);
-    // rpc CreateAdVideo(stream CreateAdVideoRequest) returns (CreateAdVideoResponse);
-    // rpc GetAdVideo(GetAdVideoRequest) returns (GetAdVideoResponse);
-    // rpc UpdateAdVideo(UpdateAdVideoRequest) returns (UpdateAdVideoResponse);
-    // rpc DeleteAdVideo(DeleteAdVideoRequest) returns (DeleteAdVideoResponse);
-
-    // // Targeting
-    // rpc CreateTargeting(CreateTargetingRequest) returns (CreateTargetingResponse);
-    // rpc GetTargeting(GetTargetingRequest) returns (GetTargetingResponse);
-    // rpc UpdateTargeting(UpdateTargetingRequest) returns (UpdateTargetingResponse);
-    // rpc DeleteTargeting(DeleteTargetingRequest) returns (DeleteTargetingResponse);
-
-    // // Reporting
-    // rpc GetAdPerformanceReport(GetAdPerformanceReportRequest) returns (GetAdPerformanceReportResponse);
 }
 
 // Campaign messages
