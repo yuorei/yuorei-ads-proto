@@ -18,7 +18,7 @@ jobs:
 
       - name: Generate Go Code
         run: |
-          buf generate
+          npx buf generate
 
       - name: Commit and Push Generated Code
         run: |
