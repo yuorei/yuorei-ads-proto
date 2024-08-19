@@ -60,7 +60,7 @@ type AdManagementServiceClient interface {
 	// Campaign Management
 	CreateCampaign(context.Context, *connect.Request[v1.CreateCampaignRequest]) (*connect.Response[v1.CreateCampaignResponse], error)
 	// Ad Video
-	GetAdVideo(context.Context, *connect.Request[v1.GetAdVideoRequest]) (*connect.ServerStreamForClient[v1.GetAdVideoResponse], error)
+	GetAdVideo(context.Context, *connect.Request[v1.GetAdVideoRequest]) (*connect.Response[v1.GetAdVideoResponse], error)
 	WatchCountAdVideo(context.Context, *connect.Request[v1.WatchCountAdVideoRequest]) (*connect.Response[v1.WatchCountAdVideoResponse], error)
 }
 
@@ -108,8 +108,8 @@ func (c *adManagementServiceClient) CreateCampaign(ctx context.Context, req *con
 }
 
 // GetAdVideo calls rpc.v1.AdManagementService.GetAdVideo.
-func (c *adManagementServiceClient) GetAdVideo(ctx context.Context, req *connect.Request[v1.GetAdVideoRequest]) (*connect.ServerStreamForClient[v1.GetAdVideoResponse], error) {
-	return c.getAdVideo.CallServerStream(ctx, req)
+func (c *adManagementServiceClient) GetAdVideo(ctx context.Context, req *connect.Request[v1.GetAdVideoRequest]) (*connect.Response[v1.GetAdVideoResponse], error) {
+	return c.getAdVideo.CallUnary(ctx, req)
 }
 
 // WatchCountAdVideo calls rpc.v1.AdManagementService.WatchCountAdVideo.
@@ -122,7 +122,7 @@ type AdManagementServiceHandler interface {
 	// Campaign Management
 	CreateCampaign(context.Context, *connect.Request[v1.CreateCampaignRequest]) (*connect.Response[v1.CreateCampaignResponse], error)
 	// Ad Video
-	GetAdVideo(context.Context, *connect.Request[v1.GetAdVideoRequest], *connect.ServerStream[v1.GetAdVideoResponse]) error
+	GetAdVideo(context.Context, *connect.Request[v1.GetAdVideoRequest]) (*connect.Response[v1.GetAdVideoResponse], error)
 	WatchCountAdVideo(context.Context, *connect.Request[v1.WatchCountAdVideoRequest]) (*connect.Response[v1.WatchCountAdVideoResponse], error)
 }
 
@@ -138,7 +138,7 @@ func NewAdManagementServiceHandler(svc AdManagementServiceHandler, opts ...conne
 		connect.WithSchema(adManagementServiceCreateCampaignMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
-	adManagementServiceGetAdVideoHandler := connect.NewServerStreamHandler(
+	adManagementServiceGetAdVideoHandler := connect.NewUnaryHandler(
 		AdManagementServiceGetAdVideoProcedure,
 		svc.GetAdVideo,
 		connect.WithSchema(adManagementServiceGetAdVideoMethodDescriptor),
@@ -171,8 +171,8 @@ func (UnimplementedAdManagementServiceHandler) CreateCampaign(context.Context, *
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("rpc.v1.AdManagementService.CreateCampaign is not implemented"))
 }
 
-func (UnimplementedAdManagementServiceHandler) GetAdVideo(context.Context, *connect.Request[v1.GetAdVideoRequest], *connect.ServerStream[v1.GetAdVideoResponse]) error {
-	return connect.NewError(connect.CodeUnimplemented, errors.New("rpc.v1.AdManagementService.GetAdVideo is not implemented"))
+func (UnimplementedAdManagementServiceHandler) GetAdVideo(context.Context, *connect.Request[v1.GetAdVideoRequest]) (*connect.Response[v1.GetAdVideoResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("rpc.v1.AdManagementService.GetAdVideo is not implemented"))
 }
 
 func (UnimplementedAdManagementServiceHandler) WatchCountAdVideo(context.Context, *connect.Request[v1.WatchCountAdVideoRequest]) (*connect.Response[v1.WatchCountAdVideoResponse], error) {
