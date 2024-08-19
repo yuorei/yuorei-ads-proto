@@ -14,6 +14,7 @@ jobs:
       - name: Install Buf
         run: |
           sudo apt-get update
+          go install connectrpc.com/connect/cmd/protoc-gen-connect-go@latest
 
       - name: Generate Go Code
         run: |
