@@ -2,8 +2,8 @@ name: Generate gRPC code
 on:
   push:
     branches: main
-    # paths:
-    #   - 'rpc/**'
+    paths:
+      - 'rpc/**'
 jobs:
   build:
     runs-on: ubuntu-latest
