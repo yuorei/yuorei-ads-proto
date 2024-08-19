@@ -21,7 +21,7 @@ jobs:
 
       - name: Generate Go Code
         run: |
-          buf generate
+          docker run --volume "$(pwd):/workspace" --workdir /workspace bufbuild/buf generate
 
       - name: Commit and Push Generated Code
         run: |
