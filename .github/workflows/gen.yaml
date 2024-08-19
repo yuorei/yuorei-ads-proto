@@ -2,8 +2,8 @@ name: Generate gRPC code
 on:
   push:
     branches: main
-    paths:
-      - 'rpc/**'
+    # paths:
+    #   - 'rpc/**'
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -14,11 +14,13 @@ jobs:
       - name: Install Buf
         run: |
           sudo apt-get update
-          npm install @bufbuild/buf
+          go install github.com/bufbuild/buf/cmd/buf@latest
+          go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+          go install connectrpc.com/connect/cmd/protoc-gen-connect-go@latest
 
       - name: Generate Go Code
         run: |
-          npx buf generate
+          buf generate
 
       - name: Commit and Push Generated Code
         run: |
