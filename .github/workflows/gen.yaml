@@ -13,7 +13,7 @@ jobs:
 
       - name: Install Buf
         run: |
-          go install github.com/bufbuild/buf/cmd/buf@latest
+          npm install @bufbuild/buf
           go install github.com/fullstorydev/grpcurl/cmd/grpcurl@latest
           go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
           go install connectrpc.com/connect/cmd/protoc-gen-connect-go@latest
@@ -21,7 +21,7 @@ jobs:
 
       - name: Generate Go Code
         run: |
-          docker run --volume "$(pwd):/workspace" --workdir /workspace bufbuild/buf generate
+          npx buf generate
 
       - name: Commit and Push Generated Code
         run: |
