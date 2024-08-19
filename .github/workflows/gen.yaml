@@ -17,6 +17,8 @@ jobs:
           go install github.com/fullstorydev/grpcurl/cmd/grpcurl@latest
           go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
           go install connectrpc.com/connect/cmd/protoc-gen-connect-go@latest
+          [ -n "$(go env GOBIN)" ] && export PATH="$(go env GOBIN):${PATH}"
+          [ -n "$(go env GOPATH)" ] && export PATH="$(go env GOPATH)/bin:${PATH}"
 
       - name: Generate Go Code
         run: |
