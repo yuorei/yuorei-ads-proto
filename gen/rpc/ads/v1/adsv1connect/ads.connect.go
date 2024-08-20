@@ -23,8 +23,6 @@ const _ = connect.IsAtLeastVersion1_13_0
 const (
 	// AdManagementServiceName is the fully-qualified name of the AdManagementService service.
 	AdManagementServiceName = "rpc.v1.AdManagementService"
-	// ad_video_serviceName is the fully-qualified name of the ad_video_service service.
-	ad_video_serviceName = "rpc.v1.ad_video_service"
 )
 
 // These constants are the fully-qualified names of the RPCs defined in this package. They're
@@ -52,7 +50,6 @@ var (
 	adManagementServiceCreateCampaignMethodDescriptor    = adManagementServiceServiceDescriptor.Methods().ByName("CreateCampaign")
 	adManagementServiceGetAdVideoMethodDescriptor        = adManagementServiceServiceDescriptor.Methods().ByName("GetAdVideo")
 	adManagementServiceWatchCountAdVideoMethodDescriptor = adManagementServiceServiceDescriptor.Methods().ByName("WatchCountAdVideo")
-	ad_video_serviceServiceDescriptor                    = v1.File_rpc_ads_v1_ads_proto.Services().ByName("ad_video_service")
 )
 
 // AdManagementServiceClient is a client for the rpc.v1.AdManagementService service.
@@ -178,43 +175,3 @@ func (UnimplementedAdManagementServiceHandler) GetAdVideo(context.Context, *conn
 func (UnimplementedAdManagementServiceHandler) WatchCountAdVideo(context.Context, *connect.Request[v1.WatchCountAdVideoRequest]) (*connect.Response[v1.WatchCountAdVideoResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("rpc.v1.AdManagementService.WatchCountAdVideo is not implemented"))
 }
-
-// AdVideoServiceClient is a client for the rpc.v1.ad_video_service service.
-type AdVideoServiceClient interface {
-}
-
-// NewAdVideoServiceClient constructs a client for the rpc.v1.ad_video_service service. By default,
-// it uses the Connect protocol with the binary Protobuf Codec, asks for gzipped responses, and
-// sends uncompressed requests. To use the gRPC or gRPC-Web protocols, supply the connect.WithGRPC()
-// or connect.WithGRPCWeb() options.
-//
-// The URL supplied here should be the base URL for the Connect or gRPC server (for example,
-// http://api.acme.com or https://acme.com/grpc).
-func NewAdVideoServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...connect.ClientOption) AdVideoServiceClient {
-	return &adVideoServiceClient{}
-}
-
-// adVideoServiceClient implements AdVideoServiceClient.
-type adVideoServiceClient struct {
-}
-
-// AdVideoServiceHandler is an implementation of the rpc.v1.ad_video_service service.
-type AdVideoServiceHandler interface {
-}
-
-// NewAdVideoServiceHandler builds an HTTP handler from the service implementation. It returns the
-// path on which to mount the handler and the handler itself.
-//
-// By default, handlers support the Connect, gRPC, and gRPC-Web protocols with the binary Protobuf
-// and JSON codecs. They also support gzip compression.
-func NewAdVideoServiceHandler(svc AdVideoServiceHandler, opts ...connect.HandlerOption) (string, http.Handler) {
-	return "/rpc.v1.ad_video_service/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		switch r.URL.Path {
-		default:
-			http.NotFound(w, r)
-		}
-	})
-}
-
-// UnimplementedAdVideoServiceHandler returns CodeUnimplemented from all methods.
-type UnimplementedAdVideoServiceHandler struct{}
