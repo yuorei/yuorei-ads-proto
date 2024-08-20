@@ -260,10 +260,17 @@ message GetAdVideoRequest {
 
   // ビデオ情報
   string video_id = 18;
+  string video_title = 19;
+  string video_description = 20;
+  repeated string video_tags = 21;
 
   // ユーザー情報
-  string user_id = 19;
-  string client_id = 20;
+  string user_id = 22;
+  string client_id = 23;
+}
+
+message GetAdVideoResponseList {
+    repeated GetAdVideoResponse responses = 1;
 }
 
 message GetAdVideoResponse {
@@ -308,8 +315,4 @@ message WatchCountAdVideoRequest {
 
 message WatchCountAdVideoResponse {
     bool success = 1;
-}
-
-service ad_video_service {
-
 }
