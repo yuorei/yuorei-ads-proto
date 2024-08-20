@@ -11,7 +11,7 @@ service AdManagementService {
     rpc CreateCampaign(CreateCampaignRequest) returns (CreateCampaignResponse);
 
     // Ad Video
-    rpc GetAdVideo(GetAdVideoRequest) returns (GetAdVideoResponse);
+    rpc GetAdVideo(GetAdVideoRequest) returns (GetAdVideoResponseList);
     rpc WatchCountAdVideo(WatchCountAdVideoRequest) returns (WatchCountAdVideoResponse);
 }
 
