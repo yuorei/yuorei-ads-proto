@@ -304,13 +304,16 @@ message WatchCountAdVideoRequest {
 
   // ビデオ情報
   string video_id = 18;
+  string video_title = 19;
+  string video_description = 20;
+  repeated string video_tags = 21;
 
   // ユーザー情報
-  string user_id = 19;
-  string client_id = 20;
+  string user_id = 22;
+  string client_id = 23;
 
   // 広告情報
-  string ad_id = 21;
+  string ad_id = 24;
 }
 
 message WatchCountAdVideoResponse {
