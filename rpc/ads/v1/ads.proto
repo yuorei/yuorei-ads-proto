@@ -13,6 +13,7 @@ service AdManagementService {
     // Ad Video
     rpc GetAdVideo(GetAdVideoRequest) returns (GetAdVideoResponseList);
     rpc WatchCountAdVideo(WatchCountAdVideoRequest) returns (WatchCountAdVideoResponse);
+    rpc GetDailyWatchCountAdVideo(AdsViewedPerDaysRequest) returns (AdsViewedPerDaysResponse);
 }
 
 // Campaign messages
@@ -318,4 +319,21 @@ message WatchCountAdVideoRequest {
 
 message WatchCountAdVideoResponse {
     bool success = 1;
+}
+
+// AdsViewedPerDaysRequest: 日ごとの視聴者数を取得するリクエスト
+message AdsViewedPerDaysRequest {
+    string ad_id = 1; // 広告ID
+}
+
+// AdsViewedPerDaysResponse: 日ごとの視聴者数を返すレスポンス
+message AdsViewedPerDaysResponse {
+    string ad_id = 1; // 広告ID
+    repeated AdsViewedPerDay ads_viewed_per_day = 2; // 日ごとの視聴者数リスト
+}
+
+// AdsViewedPerDay: 一日ごとの視聴者数データ
+message AdsViewedPerDay {
+    string day = 1; // 日付 (YYYY-MM-DD)
+    int32 count = 2; // 視聴者数
 }
