@@ -323,7 +323,9 @@ message WatchCountAdVideoResponse {
 
 // AdsViewedPerDaysRequest: 日ごとの視聴者数を取得するリクエスト
 message AdsViewedPerDaysRequest {
-    string ad_id = 1; // 広告ID
+    string ad_id = 1;
+    google.protobuf.Timestamp start = 2;
+    google.protobuf.Timestamp end = 3;
 }
 
 // AdsViewedPerDaysResponse: 日ごとの視聴者数を返すレスポンス
