@@ -42,14 +42,18 @@ const (
 	// AdManagementServiceWatchCountAdVideoProcedure is the fully-qualified name of the
 	// AdManagementService's WatchCountAdVideo RPC.
 	AdManagementServiceWatchCountAdVideoProcedure = "/rpc.v1.AdManagementService/WatchCountAdVideo"
+	// AdManagementServiceGetDailyWatchCountAdVideoProcedure is the fully-qualified name of the
+	// AdManagementService's GetDailyWatchCountAdVideo RPC.
+	AdManagementServiceGetDailyWatchCountAdVideoProcedure = "/rpc.v1.AdManagementService/GetDailyWatchCountAdVideo"
 )
 
 // These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
 var (
-	adManagementServiceServiceDescriptor                 = v1.File_rpc_ads_v1_ads_proto.Services().ByName("AdManagementService")
-	adManagementServiceCreateCampaignMethodDescriptor    = adManagementServiceServiceDescriptor.Methods().ByName("CreateCampaign")
-	adManagementServiceGetAdVideoMethodDescriptor        = adManagementServiceServiceDescriptor.Methods().ByName("GetAdVideo")
-	adManagementServiceWatchCountAdVideoMethodDescriptor = adManagementServiceServiceDescriptor.Methods().ByName("WatchCountAdVideo")
+	adManagementServiceServiceDescriptor                         = v1.File_rpc_ads_v1_ads_proto.Services().ByName("AdManagementService")
+	adManagementServiceCreateCampaignMethodDescriptor            = adManagementServiceServiceDescriptor.Methods().ByName("CreateCampaign")
+	adManagementServiceGetAdVideoMethodDescriptor                = adManagementServiceServiceDescriptor.Methods().ByName("GetAdVideo")
+	adManagementServiceWatchCountAdVideoMethodDescriptor         = adManagementServiceServiceDescriptor.Methods().ByName("WatchCountAdVideo")
+	adManagementServiceGetDailyWatchCountAdVideoMethodDescriptor = adManagementServiceServiceDescriptor.Methods().ByName("GetDailyWatchCountAdVideo")
 )
 
 // AdManagementServiceClient is a client for the rpc.v1.AdManagementService service.
@@ -59,6 +63,7 @@ type AdManagementServiceClient interface {
 	// Ad Video
 	GetAdVideo(context.Context, *connect.Request[v1.GetAdVideoRequest]) (*connect.Response[v1.GetAdVideoResponseList], error)
 	WatchCountAdVideo(context.Context, *connect.Request[v1.WatchCountAdVideoRequest]) (*connect.Response[v1.WatchCountAdVideoResponse], error)
+	GetDailyWatchCountAdVideo(context.Context, *connect.Request[v1.AdsViewedPerDaysRequest]) (*connect.Response[v1.AdsViewedPerDaysResponse], error)
 }
 
 // NewAdManagementServiceClient constructs a client for the rpc.v1.AdManagementService service. By
@@ -89,14 +94,21 @@ func NewAdManagementServiceClient(httpClient connect.HTTPClient, baseURL string,
 			connect.WithSchema(adManagementServiceWatchCountAdVideoMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
+		getDailyWatchCountAdVideo: connect.NewClient[v1.AdsViewedPerDaysRequest, v1.AdsViewedPerDaysResponse](
+			httpClient,
+			baseURL+AdManagementServiceGetDailyWatchCountAdVideoProcedure,
+			connect.WithSchema(adManagementServiceGetDailyWatchCountAdVideoMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
 	}
 }
 
 // adManagementServiceClient implements AdManagementServiceClient.
 type adManagementServiceClient struct {
-	createCampaign    *connect.Client[v1.CreateCampaignRequest, v1.CreateCampaignResponse]
-	getAdVideo        *connect.Client[v1.GetAdVideoRequest, v1.GetAdVideoResponseList]
-	watchCountAdVideo *connect.Client[v1.WatchCountAdVideoRequest, v1.WatchCountAdVideoResponse]
+	createCampaign            *connect.Client[v1.CreateCampaignRequest, v1.CreateCampaignResponse]
+	getAdVideo                *connect.Client[v1.GetAdVideoRequest, v1.GetAdVideoResponseList]
+	watchCountAdVideo         *connect.Client[v1.WatchCountAdVideoRequest, v1.WatchCountAdVideoResponse]
+	getDailyWatchCountAdVideo *connect.Client[v1.AdsViewedPerDaysRequest, v1.AdsViewedPerDaysResponse]
 }
 
 // CreateCampaign calls rpc.v1.AdManagementService.CreateCampaign.
@@ -114,6 +126,11 @@ func (c *adManagementServiceClient) WatchCountAdVideo(ctx context.Context, req *
 	return c.watchCountAdVideo.CallUnary(ctx, req)
 }
 
+// GetDailyWatchCountAdVideo calls rpc.v1.AdManagementService.GetDailyWatchCountAdVideo.
+func (c *adManagementServiceClient) GetDailyWatchCountAdVideo(ctx context.Context, req *connect.Request[v1.AdsViewedPerDaysRequest]) (*connect.Response[v1.AdsViewedPerDaysResponse], error) {
+	return c.getDailyWatchCountAdVideo.CallUnary(ctx, req)
+}
+
 // AdManagementServiceHandler is an implementation of the rpc.v1.AdManagementService service.
 type AdManagementServiceHandler interface {
 	// Campaign Management
@@ -121,6 +138,7 @@ type AdManagementServiceHandler interface {
 	// Ad Video
 	GetAdVideo(context.Context, *connect.Request[v1.GetAdVideoRequest]) (*connect.Response[v1.GetAdVideoResponseList], error)
 	WatchCountAdVideo(context.Context, *connect.Request[v1.WatchCountAdVideoRequest]) (*connect.Response[v1.WatchCountAdVideoResponse], error)
+	GetDailyWatchCountAdVideo(context.Context, *connect.Request[v1.AdsViewedPerDaysRequest]) (*connect.Response[v1.AdsViewedPerDaysResponse], error)
 }
 
 // NewAdManagementServiceHandler builds an HTTP handler from the service implementation. It returns
@@ -147,6 +165,12 @@ func NewAdManagementServiceHandler(svc AdManagementServiceHandler, opts ...conne
 		connect.WithSchema(adManagementServiceWatchCountAdVideoMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
+	adManagementServiceGetDailyWatchCountAdVideoHandler := connect.NewUnaryHandler(
+		AdManagementServiceGetDailyWatchCountAdVideoProcedure,
+		svc.GetDailyWatchCountAdVideo,
+		connect.WithSchema(adManagementServiceGetDailyWatchCountAdVideoMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/rpc.v1.AdManagementService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case AdManagementServiceCreateCampaignProcedure:
@@ -155,6 +179,8 @@ func NewAdManagementServiceHandler(svc AdManagementServiceHandler, opts ...conne
 			adManagementServiceGetAdVideoHandler.ServeHTTP(w, r)
 		case AdManagementServiceWatchCountAdVideoProcedure:
 			adManagementServiceWatchCountAdVideoHandler.ServeHTTP(w, r)
+		case AdManagementServiceGetDailyWatchCountAdVideoProcedure:
+			adManagementServiceGetDailyWatchCountAdVideoHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -174,4 +200,8 @@ func (UnimplementedAdManagementServiceHandler) GetAdVideo(context.Context, *conn
 
 func (UnimplementedAdManagementServiceHandler) WatchCountAdVideo(context.Context, *connect.Request[v1.WatchCountAdVideoRequest]) (*connect.Response[v1.WatchCountAdVideoResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("rpc.v1.AdManagementService.WatchCountAdVideo is not implemented"))
+}
+
+func (UnimplementedAdManagementServiceHandler) GetDailyWatchCountAdVideo(context.Context, *connect.Request[v1.AdsViewedPerDaysRequest]) (*connect.Response[v1.AdsViewedPerDaysResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("rpc.v1.AdManagementService.GetDailyWatchCountAdVideo is not implemented"))
 }
